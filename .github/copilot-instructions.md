@@ -91,6 +91,66 @@ bunx prisma generate
 
 ---
 
+## Dependency Installation Rules
+
+Always install dependencies directly inside the related app or package whenever possible.
+
+Example:
+
+```txt
+apps/backend
+packages/auth
+packages/database
+```
+
+Install dependencies only where they are actually used.
+
+Do NOT install dependencies in the root workspace unless:
+- the dependency is shared across multiple apps/packages
+- the dependency is used for monorepo tooling
+- the dependency is required globally for development workflows
+
+Examples of valid root dependencies:
+- turbo
+- typescript
+- prettier
+- eslint
+- husky
+- lint-staged
+
+Avoid unnecessary root-level dependencies to keep the workspace clean and isolated.
+
+---
+
+# GitHub CLI Rules
+
+Always use the installed GitHub CLI:
+
+```txt
+gh
+```
+
+for GitHub-related operations whenever possible.
+
+Examples:
+- creating pull requests
+- viewing PRs
+- creating issues
+- authentication
+- repository workflows
+
+Example commands:
+
+```txt
+gh pr create
+gh pr view
+gh issue create
+```
+
+Prefer GitHub CLI over manual browser-based workflows when applicable.
+
+---
+
 ## Dependency Management
 
 - Keep dependencies minimal.
@@ -193,6 +253,40 @@ Prefer using shared utilities instead of recreating:
 
 ---
 
+## Promise Handling Standard
+
+Whenever handling async operations or promises, always use the shared `p` helper from:
+
+```txt
+@repo/utils/utils
+```
+
+Example:
+
+```ts
+const [err, result] = await p(fetcher("some-url"))
+```
+
+Variable naming should follow the related function or business context.
+
+Examples:
+
+```ts
+const [userError, user] = await p(getUser())
+
+const [createUserError, createdUser] = await p(createUser())
+
+const [fetchProductsError, products] = await p(fetchProducts())
+```
+
+Rules:
+- Prefer tuple-based async handling over repetitive try/catch blocks.
+- Keep error handling readable and consistent.
+- Use descriptive variable names based on the executed function.
+- Avoid deeply nested try/catch logic unless absolutely necessary.
+
+---
+
 # File Naming Convention
 
 Always use kebab-case (`-`) for file and folder naming.
@@ -278,3 +372,10 @@ Always include:
 - why it was changed
 - affected apps/packages
 - important notes if needed
+
+Always use:
+- git
+- gh CLI
+- Bun commands
+
+for all development and repository workflows whenever possible.
