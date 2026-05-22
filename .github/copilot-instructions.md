@@ -25,10 +25,10 @@ always follow these rules:
 
 ### Package Naming
 
-All workspace packages MUST use:
+All workspace packages and apps MUST use the following naming format:
 
 ```txt
-@repo/*
+@repo/<package-or-project-name>
 ```
 
 Example:
@@ -38,13 +38,31 @@ Example:
 @repo/database
 @repo/api-client
 @repo/ui
+@repo/mobile
+@repo/backend
 ```
 
-Never use:
+Rules:
+- Always use the `@repo/` scope.
+- Package or project names must be lowercase.
+- Use kebab-case (`-`) when needed.
+- Names should be descriptive and consistent.
 
+Never use:
 - relative local naming
 - random package names
 - inconsistent scope names
+- camelCase naming
+- PascalCase naming
+
+Invalid examples:
+
+```txt
+auth
+myPackage
+@repo/Auth
+@repo/authService
+```
 
 ---
 
@@ -77,12 +95,54 @@ Every new app or package MUST include and use:
 ```
 
 Prefer using shared utilities instead of recreating:
-
 - helper functions
 - error handling
 - async wrappers
 - common utilities
 - shared constants
+
+---
+
+# File Naming Convention
+
+Always use kebab-case (`-`) for file and folder naming.
+
+Example:
+
+```txt
+auth-route.ts
+user-service.ts
+create-user.dto.ts
+auth-middleware.ts
+database-client.ts
+```
+
+Never use:
+- camelCase file names
+- PascalCase file names
+- snake_case file names
+- inconsistent naming formats
+
+Examples of invalid naming:
+
+```txt
+authRoute.ts
+AuthRoute.ts
+auth_route.ts
+```
+
+This rule applies to:
+- routes
+- services
+- controllers
+- utilities
+- hooks
+- components
+- configs
+- DTOs
+- schemas
+- middleware
+- tests
 
 ---
 
@@ -124,7 +184,6 @@ After completing implementation:
 4. Create a Pull Request with a concise summary of changes.
 
 Always include:
-
 - what was changed
 - why it was changed
 - affected apps/packages
