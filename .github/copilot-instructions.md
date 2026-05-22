@@ -10,6 +10,64 @@
 
 ---
 
+# Runtime & Package Manager Rules
+
+## Bun Standardization
+
+Always use:
+
+```txt
+Bun
+```
+
+as the primary:
+- runtime
+- package manager
+- script runner
+
+Do not use:
+- npm
+- yarn
+- pnpm
+
+unless explicitly required by the project.
+
+---
+
+## Bun Features
+
+Always prefer Bun-native features whenever possible.
+
+Examples:
+- `bun install`
+- `bun run`
+- `bun test`
+- `bunx`
+- Bun runtime APIs
+- Bun package manager
+- Bun workspace support
+
+Prefer Bun solutions over third-party alternatives when suitable.
+
+Example:
+
+```txt
+bun run dev
+bun test
+bunx prisma generate
+```
+
+---
+
+## Dependency Management
+
+- Keep dependencies minimal.
+- Prefer lightweight and modern packages.
+- Avoid unnecessary libraries if Bun already provides native support.
+- Reuse shared packages inside the monorepo whenever possible.
+
+---
+
 # Workspace Rules
 
 ## New Apps or Packages
