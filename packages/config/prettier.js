@@ -8,5 +8,5 @@ module.exports = {
   singleQuote: false,
   jsxSingleQuote: true,
   trailingComma: 'none',
-  plugins: ['prettier-plugin-tailwindcss']
+  plugins: ['../../packages/config/node_modules/prettier-plugin-tailwindcss/dist/index.mjs']
 }
