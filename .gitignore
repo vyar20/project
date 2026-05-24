@@ -40,3 +40,5 @@ yarn-error.log*
 
 prompt.txt
 issue.md
+
+**/generated

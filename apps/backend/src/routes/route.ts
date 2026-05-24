@@ -1,11 +1,8 @@
 import { Hono } from "hono"
+import authRoute from "./auth-route"
 
 const route = new Hono()
 
-route.get("/", (c) => {
-    return c.json({
-        message: "Hello, World!"
-    })
-})
+route.route("/auth", authRoute)
 
 export default route
