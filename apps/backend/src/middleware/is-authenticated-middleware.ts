@@ -1,11 +1,9 @@
 import { verifyJWT } from '@repo/utils/lib/jwt-utils'
 import { ErrorHandler } from '@repo/utils/utils'
 import { Context, Next } from 'hono'
-import { cloneRawRequest } from 'hono/request'
 
 export const isAuthenticated = async (c: Context, next: Next) => {
-    const clone = await cloneRawRequest(c.req)
-    const authorization = clone.headers.get('Authorization')
+    const authorization = c.req.header('Authorization')
 
     if (!authorization)
         throw new ErrorHandler('UNAUTHORIZED', 'Token is missing in the Authorization header.')
@@ -25,6 +23,8 @@ export const isAuthenticated = async (c: Context, next: Next) => {
 
     if (!payload)
         throw new ErrorHandler('UNAUTHORIZED', 'Token is missing in the Authorization header.')
+
+    c.set('user', payload)
 
     return await next()
 }

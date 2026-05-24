@@ -76,7 +76,7 @@ export const signInUser = async (inputs: SignInValidation) => {
 
     const [errUpdateUser] = await p(
         db.session.upsert({
-            where: { deviceId, deleted: false },
+            where: { deviceId },
             create: {
                 userId: user.id,
                 deviceType: deviceType ?? 'UNKNOWN',
@@ -87,7 +87,7 @@ export const signInUser = async (inputs: SignInValidation) => {
             },
             update: {
                 hashRefreshToken,
-                deleted: false
+                refreshTokenExpiredAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) // 30 days
             }
         })
     )
@@ -108,11 +108,8 @@ export const signOutUser = async (inputs: SignOutValidation) => {
     const { deviceId } = inputs
 
     const [errUpdateSession] = await p(
-        db.session.update({
-            where: { deviceId, deleted: false },
-            data: {
-                deleted: true
-            }
+        db.session.deleteMany({
+            where: { deviceId }
         })
     )
 
@@ -130,7 +127,7 @@ export const refreshToken = async (inputs: RefreshTokenValidation) => {
 
     const [errFindSession, session] = await p(
         db.session.findFirst({
-            where: { deviceId, deleted: false }
+            where: { deviceId }
         })
     )
 
@@ -171,7 +168,7 @@ export const refreshToken = async (inputs: RefreshTokenValidation) => {
 
     const [errUpdateSession] = await p(
         db.session.update({
-            where: { deviceId, deleted: false },
+            where: { deviceId },
             data: {
                 hashRefreshToken,
                 refreshTokenExpiredAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) // 30 days

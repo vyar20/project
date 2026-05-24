@@ -1,5 +1,9 @@
 import { JWTPayload, SignJWT, jwtVerify } from 'jose'
 
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET.trim() === '') {
+    throw new Error('JWT_SECRET env variable is not set or empty')
+}
+
 const jwtExpirationTime = '15m'
 const secret = new TextEncoder().encode(process.env.JWT_SECRET)
 
@@ -11,7 +15,11 @@ export const signJWT = (payload: JWTPayload, expirationAt: string = jwtExpiratio
         .sign(secret)
 
 export const verifyJWT = async (token: string) => {
-    const { payload } = await jwtVerify(token, secret)
+    try {
+        const { payload } = await jwtVerify(token, secret, { algorithms: ['HS256'] })
 
-    return payload
+        return payload
+    } catch (error) {
+        return null
+    }
 }

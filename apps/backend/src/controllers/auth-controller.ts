@@ -1,4 +1,9 @@
-import { refreshToken, signInUser, signOutUser, signUpUser } from '@/services/auth-service'
+import {
+    refreshToken as getRefreshToken,
+    signInUser,
+    signOutUser,
+    signUpUser
+} from '@/services/auth-service'
 import { Context } from 'hono'
 
 export const signUpController = async (c: Context) => {
@@ -44,12 +49,13 @@ export const signOutController = async (c: Context) => {
 export const refreshTokenController = async (c: Context) => {
     const input = await c.req.json()
 
-    const { accessToken } = await refreshToken(input)
+    const { accessToken, refreshToken } = await getRefreshToken(input)
 
     return c.json({
         success: true,
         data: {
-            accessToken
+            accessToken,
+            refreshToken
         }
     })
 }
